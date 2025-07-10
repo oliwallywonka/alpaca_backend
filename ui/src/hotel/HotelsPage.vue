@@ -1,0 +1,3 @@
+<template>
+    Hotels Page
+</template>
