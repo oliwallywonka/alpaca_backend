@@ -17,3 +17,8 @@ export interface User {
     role: Role
   }
 }
+
+export interface Auth {
+  toke: string
+  record: User
+}

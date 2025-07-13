@@ -21,6 +21,7 @@ class tourVariantService {
           .collection(this.tourVariantTable)
           .getList<TourVariant>(params?.value.page, params?.value.perPage, {
             filter: params?.value.filter,
+            expand: params?.value.expand,
           })
       },
     })

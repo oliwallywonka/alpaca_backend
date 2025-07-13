@@ -6,7 +6,6 @@ import {
   GalleryVerticalEnd,
   Map,
   MapPin,
-  Speech,
   Users,
 } from 'lucide-vue-next'
 
@@ -18,9 +17,9 @@ export const sidebarData = {
   },
   teams: [
     {
-      name: 'Acme Inc',
+      name: 'Alpaca Face',
       logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
+      plan: 'Travel Agency',
     },
     {
       name: 'Acme Corp.',
@@ -40,7 +39,7 @@ export const sidebarData = {
       icon: BarChart2,
     },
     {
-      title: 'User Management',
+      title: 'People Management',
       url: '#',
       icon: Users,
       isActive: true,
@@ -57,6 +56,10 @@ export const sidebarData = {
           title: 'Providers',
           url: '/providers',
         },
+        {
+          title: 'Customers',
+          url: '/customers',
+        },
       ],
     },
     {
@@ -66,7 +69,7 @@ export const sidebarData = {
       isActive: true,
       items: [
         {
-          title: 'Tours templates',
+          title: 'Tours Templates',
           url: '/tours',
         },
         {
@@ -77,18 +80,6 @@ export const sidebarData = {
           title: 'Destinations',
           url: '/destinations',
         },
-        {
-          title: 'Activities',
-          url: '/activities',
-        },
-        {
-          title: 'Meals',
-          url: '/meals',
-        },
-        {
-          title: 'Hotels',
-          url: '/hotels',
-        },
       ],
     },
 
@@ -96,18 +87,6 @@ export const sidebarData = {
       title: 'Trips Management',
       url: '/trips',
       icon: MapPin,
-    },
-    {
-      title: 'Tourists Management',
-      url: '#',
-      icon: Speech,
-      isActive: true,
-      items: [
-        {
-          title: 'Transactions',
-          url: '#',
-        },
-      ],
     },
     {
       title: 'Cash Management',

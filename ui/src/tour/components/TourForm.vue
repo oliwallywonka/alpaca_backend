@@ -111,7 +111,7 @@ watch(data, (newData) => {
       <CardTitle>{{ data ? data.name.en.toUpperCase() : '' }}</CardTitle>
       <CardDescription>
         Last Modification:
-        {{ data ? parseDate(data.updated) : '' }}
+        {{ data ? parseDate(data.updated) : '' }} {{ form.values }}
       </CardDescription>
     </CardHeader>
     <CardContent class="grid gap-2">
@@ -217,7 +217,7 @@ watch(data, (newData) => {
           <FormItem>
             <FormLabel>Group Size</FormLabel>
             <FormControl>
-              <Input v-bind="componentField" />
+              <Input v-bind="componentField"/>
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -227,7 +227,7 @@ watch(data, (newData) => {
           <FormItem>
             <FormLabel>Days Duration</FormLabel>
             <FormControl>
-              <Input v-bind="componentField" />
+              <Input v-bind="componentField" type="number" />
             </FormControl>
             <FormMessage />
           </FormItem>

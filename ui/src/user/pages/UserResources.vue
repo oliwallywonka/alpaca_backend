@@ -10,14 +10,14 @@ import { Button } from '@/core/components/ui/button'
 
 const route = useRoute()
 const { data, isLoading, refetch } = UserService.useGetResources(toRef(route.params.id as string))
-
+const { data: userData } = UserService.useGetOne(toRef(route.params.id as string), toRef(true))
 async function handleRefetch() {
   await refetch()
 }
 </script>
 
 <template>
-  <h1 class="text-xl font-semibold">User Resources Prices</h1>
+  <h1 class="text-xl font-semibold">User Resources Prices {{ userData?.name }}</h1>
   <div class="w-full flex gap-2">
     <ResourceFormDialog :userID="route.params.id as string">
       <PlusIcon class="w-4 h-4" />

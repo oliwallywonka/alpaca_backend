@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { h } from 'vue'
+import { computed, h } from 'vue'
 import { AgGridVue } from 'ag-grid-vue3'
 import {
   ClientSideRowModelModule,
   ColumnAutoSizeModule,
   ModuleRegistry,
+  RowSelectionModule,
   ValidationModule,
   type GridOptions,
   type ICellRendererParams,
+  type SelectionChangedEvent,
 } from 'ag-grid-community'
 
 import type { Destination } from '@/destination/interfaces/destination'
@@ -17,13 +19,20 @@ import DestinationFormDialog from './DestinationFormDialog.vue'
 
 const props = defineProps<{
   destinations: Destination[]
+  showSelect?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'click:status', id: string, status: boolean): void
+  (e: 'select:destination', destination: Destination | undefined): void
 }>()
 
-ModuleRegistry.registerModules([ClientSideRowModelModule, ColumnAutoSizeModule, ValidationModule])
+ModuleRegistry.registerModules([
+  ClientSideRowModelModule,
+  ColumnAutoSizeModule,
+  RowSelectionModule,
+  ValidationModule,
+])
 
 const ParentCell = {
   setup({ params }: { params: ICellRendererParams<Destination> }) {
@@ -59,6 +68,26 @@ const ActionsCell = {
     return () => h(DestinationFormDialog, { destinationID: params.data?.id }, () => ['Edit'])
   },
 }
+
+const selectOptions = computed<Partial<GridOptions>>(() => {
+  if (!props.showSelect) return {}
+  return {
+    rowSelection: {
+      mode: 'singleRow',
+      checkboxes: true,
+    },
+    selectionColumnDef: {
+      pinned: 'left',
+    },
+    onSelectionChanged: (event: SelectionChangedEvent<Destination>) => {
+      if (!event.selectedNodes || event.selectedNodes?.length === 0) {
+        emit('select:destination', undefined)
+        return
+      }
+      emit('select:destination', event.selectedNodes[0].data)
+    },
+  }
+})
 
 const gridOptions: GridOptions = {
   columnDefs: [
@@ -100,6 +129,7 @@ const gridOptions: GridOptions = {
       cellRenderer: ActionsCell,
     },
   ],
+  ...selectOptions.value,
   domLayout: 'autoHeight',
   autoSizeStrategy: {
     type: 'fitCellContents',

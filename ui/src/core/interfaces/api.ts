@@ -16,4 +16,5 @@ export interface ParamsRequest {
   filter: string
   orderBy: string
   orderDirection: 'ASC' | 'DESC'
+  expand: string
 }

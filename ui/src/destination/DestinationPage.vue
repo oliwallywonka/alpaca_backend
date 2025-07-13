@@ -9,6 +9,15 @@ import { DestinationService } from '@/destination/services/DestinationService'
 import { useParams } from '@/core/hooks/useParams'
 import ItemsPaginator from '@/core/components/paginator/ItemsPaginator.vue'
 import { Button } from '@/core/components/ui/button'
+import type { Destination } from './interfaces/destination'
+
+const props = defineProps<{
+  showSelect?: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'select:destination', destination: Destination | undefined): void
+}>()
 
 const { params, setParams } = useParams()
 const { data, isLoading, refetch } = DestinationService.useGetAll(params)
@@ -20,6 +29,10 @@ const handleSearch = (value: string) => {
     filter: `name~"${value}" || description~"${value}" || parent.name~"${value}"`,
   })
   refetch()
+}
+
+const handleSelect = (destination: Destination | undefined) => {
+  emit('select:destination', destination)
 }
 
 const updateStatus = async (id: string, status: boolean) => {
@@ -40,13 +53,17 @@ const updateStatus = async (id: string, status: boolean) => {
     <DestinationFormDialog><PlusIcon class="w-4 h-4" /> New Destination</DestinationFormDialog>
 
     <Button @click="refetch" :disabled="isLoading">
-      <RefreshCcwIcon :class="{'animate-spin': isLoading}" />
+      <RefreshCcwIcon :class="{ 'animate-spin': isLoading }" />
     </Button>
-
   </div>
   <p v-if="isLoading">Loading...</p>
   <template v-else>
-    <DestinationsTable :destinations="data?.items || []" @click:status="updateStatus" />
+    <DestinationsTable
+      :destinations="data?.items || []"
+      :showSelect="props.showSelect"
+      @select:destination="handleSelect"
+      @click:status="updateStatus"
+    />
   </template>
   <ItemsPaginator
     :items-per-page="params.perPage"

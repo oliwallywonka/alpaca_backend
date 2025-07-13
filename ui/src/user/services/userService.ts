@@ -5,13 +5,31 @@ import type PocketBase from 'pocketbase'
 import type { Ref } from 'vue'
 import type { User } from '../interfaces/user'
 import type { ResourceProvider } from '../interfaces/resourcePrices'
+import type { BaseAuthStore } from 'pocketbase'
 
 class userService {
   public api: PocketBase
+  public authStore: BaseAuthStore
   userTable = 'users'
   resourceProviderTable = 'resourceProviders'
   constructor() {
     this.api = API
+    this.authStore = this.api.authStore
+  }
+
+  useAuth() {
+    return useMutation({
+      mutationKey: ['user_auth'],
+      mutationFn: async ({ identity, password }: { identity: string; password: string }) => {
+        return await this.api.collection<User>(this.userTable).authWithPassword(identity, password, {
+          expand: 'role',
+        })
+      },
+    })
+  }
+
+  logOut() {
+    this.authStore.clear()
   }
 
   useGetAll(params?: Ref<ParamsRequest>) {

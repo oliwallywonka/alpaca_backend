@@ -1,3 +1,0 @@
-<template>
-    Meals Page
-</template>

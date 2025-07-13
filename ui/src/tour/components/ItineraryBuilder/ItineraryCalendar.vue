@@ -7,16 +7,18 @@ import type { EventImpl } from '@fullcalendar/core/internal'
 import FullCalendarComponent from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import interactionPlugin, { type DateClickArg } from '@fullcalendar/interaction'
 
 const props = defineProps<{
   commentaries: EventSourceInput[]
+  destinations: EventSourceInput[]
+  resources: EventSourceInput[]
   initialDate?: Date
 }>()
 
 const emit = defineEmits<{
   (e: 'click:event', event: EventImpl): void
-  (e: 'click:date', date: Date): void
+  (e: 'click:date', date: DateClickArg): void
   (e: 'event:drop', event: EventImpl): void
   (e: 'event:resize', event: EventImpl): void
 }>()
@@ -37,7 +39,7 @@ const options = computed<CalendarOptions>(() => ({
       buttonText: 'days',
     },
   },
-  events: [...props.commentaries],
+  events: [...props.commentaries, ...props.destinations, ...props.resources],
   height: '100%',
   editable: true,
   droppable: true,
@@ -57,7 +59,8 @@ const options = computed<CalendarOptions>(() => ({
     emit('click:event', info.event as EventImpl)
   },
   dateClick: function (info) {
-    emit('click:date', info.date)
+    console.log('CLICKING DATE', info)
+    emit('click:date', info)
   },
 }))
 </script>

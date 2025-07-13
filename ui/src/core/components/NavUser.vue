@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/core/components/ui/avatar'
+import { ref } from 'vue'
+import { ChevronsUpDown, LogOut } from 'lucide-vue-next'
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/core/components/ui/avatar'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
+  /* DropdownMenuGroup, */
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -20,25 +19,19 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/core/components/ui/sidebar'
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from 'lucide-vue-next'
+import type { User } from '@/user/interfaces/user'
+import { UserService } from '@/user/services/userService'
+import { API } from '../services/pocketbase'
+import { useRouter } from 'vue-router'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<{
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}>()
-
+const router = useRouter()
+// TODO: fix this TypeScript error
+const user = ref<User>(UserService.authStore.record)
 const { isMobile } = useSidebar()
+const handleLogout = () => {
+  API.authStore.clear()
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -51,10 +44,8 @@ const { isMobile } = useSidebar()
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <Avatar class="h-8 w-8 rounded-lg">
-              <AvatarImage :src="user.avatar" :alt="user.name" />
-              <AvatarFallback class="rounded-lg">
-                CN
-              </AvatarFallback>
+              <AvatarImage :src="user.avatar as string" :alt="user.name" />
+              <AvatarFallback class="rounded-lg"> CN </AvatarFallback>
             </Avatar>
             <div class="grid flex-1 text-left text-sm leading-tight">
               <span class="truncate font-medium">{{ user.name }}</span>
@@ -72,10 +63,8 @@ const { isMobile } = useSidebar()
           <DropdownMenuLabel class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage :src="user.avatar" :alt="user.name" />
-                <AvatarFallback class="rounded-lg">
-                  CN
-                </AvatarFallback>
+                <AvatarImage :src="user.avatar as string" :alt="user.name" />
+                <AvatarFallback class="rounded-lg"> CN </AvatarFallback>
               </Avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
                 <span class="truncate font-semibold">{{ user.name }}</span>
@@ -84,7 +73,7 @@ const { isMobile } = useSidebar()
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuGroup>
+          <!-- <DropdownMenuGroup>
             <DropdownMenuItem>
               <Sparkles />
               Upgrade to Pro
@@ -105,8 +94,8 @@ const { isMobile } = useSidebar()
               Notifications
             </DropdownMenuItem>
           </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuSeparator /> -->
+          <DropdownMenuItem @click="handleLogout">
             <LogOut />
             Log out
           </DropdownMenuItem>

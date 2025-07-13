@@ -8,6 +8,7 @@ export function useParams(paramParams: Partial<ParamsRequest> = {}) {
     filter: '',
     orderBy: 'created',
     orderDirection: 'DESC',
+    expand: '',
     ...paramParams,
   }
   const params = ref<ParamsRequest>(defaultParams)

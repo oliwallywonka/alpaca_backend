@@ -11,3 +11,11 @@ export interface LocationField {
   lat: number
   lon: number
 }
+
+export interface PriceField {
+  minPersons: number
+  maxPersons: number
+  price: number
+  currency: string
+  isPerPerson: boolean
+}

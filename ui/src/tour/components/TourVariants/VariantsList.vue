@@ -14,11 +14,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/components/ui/t
 import VariantFormDialog from '@/tour/components/TourVariants/VariantFormDialog.vue'
 import { ToggleGroup, ToggleGroupItem } from '@/core/components/ui/toggle-group'
 import ItineraryBuilder from '../ItineraryBuilder/ItineraryBuilder.vue'
-import ExpensesTable from '../ExpensesTable/ExpensesTable.vue'
 import { TourVariantService } from '@/tour/services/tourVariantService'
 import { useParams } from '@/core/hooks/useParams'
 import { useRoute } from 'vue-router'
 import VariantDeleteDialog from './VariantDeleteDialog.vue'
+import ExpensesSection from '../Expenses/ExpensesSection.vue'
 
 const route = useRoute()
 const tourID = route.params.tourID as string
@@ -68,33 +68,28 @@ watch(data, (newData) => {
           <DropdownMenu>
             <DropdownMenuTrigger @click.stop><EllipsisVertical /></DropdownMenuTrigger>
             <DropdownMenuContent>
-              {{ /** TODO: Duplicate variant */ ''}}
-              {{ /** TODO: Fix click propagation on dropdown and items */ ''}}
+              {{ /** TODO: Duplicate variant */ '' }}
+              {{ /** TODO: Fix click propagation on dropdown and items */ '' }}
               <DropdownMenuItem @click.stop><Copy /> Duplicate </DropdownMenuItem>
 
               <DropdownMenuItem>
                 <VariantFormDialog :variantID="variant.id">
-                  <button @click.stop class="w-full flex gap-2">
-                    <Edit /> Edit
-                  </button>
-                </VariantFormDialog> 
+                  <button @click.stop class="w-full flex gap-2"><Edit /> Edit</button>
+                </VariantFormDialog>
               </DropdownMenuItem>
 
               <DropdownMenuItem>
                 <VariantDeleteDialog :variantID="variant.id">
-                  <button class="w-full flex gap-2">
-                    <Trash /> Delete
-                  </button>
+                  <button class="w-full flex gap-2"><Trash /> Delete</button>
                 </VariantDeleteDialog>
               </DropdownMenuItem>
-
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </ToggleGroupItem>
     </ToggleGroup>
 
-    <Tabs v-if="currentVariantID" default-value="itinerary">
+    <Tabs v-if="currentVariantID" default-value="expenses">
       <TabsList class="grid w-full grid-cols-2">
         <TabsTrigger value="itinerary"> Itinerary </TabsTrigger>
         <TabsTrigger value="expenses"> Operative Expenses </TabsTrigger>
@@ -103,7 +98,7 @@ watch(data, (newData) => {
         <ItineraryBuilder :tourVariantID="currentVariantID" />
       </TabsContent>
       <TabsContent value="expenses">
-        <ExpensesTable />
+        <ExpensesSection :tourVariantID="currentVariantID" />
       </TabsContent>
     </Tabs>
   </div>

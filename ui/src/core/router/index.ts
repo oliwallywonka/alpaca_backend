@@ -5,14 +5,13 @@ import { dashboardRoutes } from '@/dashboard/routes'
 import { tourRoutes } from '@/tour/routes'
 import { resourceRoutes } from '@/resource/routes'
 import { destinationRoutes } from '@/destination/routes'
-import { activityRoutes } from '@/activity/routes'
 import { cashRoutes } from '@/cash/routes'
-import { hotelRoutes } from '@/hotel/routes'
-import { mealRoutes } from '@/meal/routes'
 import { rolesRoutes } from '@/role/routes'
 import { tripRoutes } from '@/trip/routes'
 import { authRoutes } from '@/auth/routes'
 import { providerRoutes } from '@/provider/routes'
+import { API } from '../services/pocketbase'
+import { customerRoutes } from '@/customer/route'
 
 const appRoutes = [
   ...dashboardRoutes,
@@ -22,11 +21,9 @@ const appRoutes = [
   ...tripRoutes,
   ...resourceRoutes,
   ...destinationRoutes,
-  ...activityRoutes,
-  ...mealRoutes,
-  ...hotelRoutes,
   ...rolesRoutes,
   ...cashRoutes,
+  ...customerRoutes,
 ]
 
 const router = createRouter({
@@ -40,6 +37,11 @@ const router = createRouter({
       children: appRoutes,
     },
   ],
+})
+
+router.beforeEach((to) => {
+  const canAccess = API.authStore.isValid
+  if (!canAccess && to.name !== 'login') return '/login'
 })
 
 export default router

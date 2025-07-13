@@ -47,7 +47,7 @@ const { data: userData } = UserService.useGetOne(toRef(props.userID!), startFetc
 const { mutateAsync: createMutate } = UserService.useCreate()
 const { mutateAsync: updateMutate } = UserService.useUpdate()
 
-const formSchema = toTypedSchema(
+const createSchema = toTypedSchema(
   z
     .object({
       role: z.string().min(1, 'Role is required'),
@@ -63,14 +63,21 @@ const formSchema = toTypedSchema(
     }),
 )
 
-const { handleSubmit,values, setFieldValue, setValues } = useForm({
-  validationSchema: formSchema,
+const updateSchema = toTypedSchema(
+  z.object({
+    role: z.string().min(1, 'Role is required'),
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email('Invalid email').min(1, 'Email is required'),
+    contacts: z.array(z.object({ type: z.string(), value: z.string() })),
+  }),
+)
+
+const { handleSubmit, setFieldValue, setValues, resetForm } = useForm({
+  validationSchema: props.userID ? updateSchema : createSchema,
   initialValues: {
     name: userData?.value?.name || '',
     role: userData.value?.role || '',
     email: userData.value?.email || '',
-    password: userData?.value?.password || '',
-    passwordConfirm: userData?.value?.password || '',
     contacts: userData?.value?.contacts || [],
   },
 })
@@ -95,14 +102,17 @@ const onSubmit = handleSubmit(async (values) => {
   }
 })
 
+watch(isOpen, (newIsOpen) => {
+  if (!newIsOpen) return
+  resetForm()
+})
+
 watch([isOpen, userData], ([newIsOpen, newUserData]) => {
   if (!newIsOpen || !newUserData) return
   setValues({
     name: newUserData?.name || '',
     role: newUserData?.role || '',
     email: newUserData?.email || '',
-    password: '',
-    passwordConfirm: '',
     contacts: newUserData?.contacts || [],
   })
 })
@@ -117,7 +127,6 @@ watch([isOpen, userData], ([newIsOpen, newUserData]) => {
         <DialogTitle>{{ props.userID ? 'Edit User' : 'New User' }} </DialogTitle>
         <DialogDescription>
           Fill the form to create a new user here. Click save when you're done.
-          {{ values }}
         </DialogDescription>
       </DialogHeader>
       <form id="user-form" class="grid grid-cols-2 gap-4" @submit.prevent="onSubmit">
@@ -141,7 +150,7 @@ watch([isOpen, userData], ([newIsOpen, newUserData]) => {
           </FormItem>
         </FormField>
 
-        <FormField v-slot="{ componentField }" name="password">
+        <FormField v-if="!props.userID" v-slot="{ componentField }" name="password">
           <FormItem>
             <FormLabel>Password</FormLabel>
             <FormControl>
@@ -151,7 +160,7 @@ watch([isOpen, userData], ([newIsOpen, newUserData]) => {
           </FormItem>
         </FormField>
 
-        <FormField v-slot="{ componentField }" name="passwordConfirm">
+        <FormField v-if="!props.userID" v-slot="{ componentField }" name="passwordConfirm">
           <FormItem>
             <FormLabel>Confirm Password</FormLabel>
             <FormControl>

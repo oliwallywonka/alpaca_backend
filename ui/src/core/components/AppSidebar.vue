@@ -20,6 +20,8 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 </script>
 
 <template>
+
+  
   <Sidebar v-bind="props">
     <SidebarHeader>
       <TeamSwitcher :teams="sidebarData.teams" />

@@ -24,4 +24,9 @@ export const colors = {
     borderColor: '#63209e',
     textColor: '#63209e',
   },
+  black: {
+    backgroundColor: 'white',
+    borderColor: 'black',
+    textColor: 'black',
+  },
 } as const

@@ -2,11 +2,11 @@
 import { type Component, ref } from 'vue'
 import {
   DropdownMenu,
-  DropdownMenuContent,
+  /* DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
+  DropdownMenuShortcut, */
   DropdownMenuTrigger,
 } from '@/core/components/ui/dropdown-menu'
 
@@ -16,7 +16,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/core/components/ui/sidebar'
-import { ChevronsUpDown, Plus } from 'lucide-vue-next'
+import { Shell } from 'lucide-vue-next';
+/* import { ChevronsUpDown, Plus } from 'lucide-vue-next' */
 
 const props = defineProps<{
   teams: {
@@ -26,7 +27,7 @@ const props = defineProps<{
   }[]
 }>()
 
-const { isMobile } = useSidebar()
+const { /* isMobile */ } = useSidebar()
 const activeTeam = ref(props.teams[0])
 </script>
 
@@ -42,7 +43,7 @@ const activeTeam = ref(props.teams[0])
             <div
               class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
             >
-              <component :is="activeTeam.logo" class="size-4" />
+              <Shell />
             </div>
             <div class="grid flex-1 text-left text-sm leading-tight">
               <span class="truncate font-medium">
@@ -50,10 +51,10 @@ const activeTeam = ref(props.teams[0])
               </span>
               <span class="truncate text-xs">{{ activeTeam.plan }}</span>
             </div>
-            <ChevronsUpDown class="ml-auto" />
+            <!-- <ChevronsUpDown class="ml-auto" /> -->
           </SidebarMenuButton>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
+        <!-- <DropdownMenuContent
           class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
           align="start"
           :side="isMobile ? 'bottom' : 'right'"
@@ -79,7 +80,7 @@ const activeTeam = ref(props.teams[0])
             </div>
             <div class="font-medium text-muted-foreground">Add team</div>
           </DropdownMenuItem>
-        </DropdownMenuContent>
+        </DropdownMenuContent> -->
       </DropdownMenu>
     </SidebarMenuItem>
   </SidebarMenu>

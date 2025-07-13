@@ -9,6 +9,7 @@ import {
   ColumnAutoSizeModule,
   ModuleRegistry,
   RowAutoHeightModule,
+  ValidationModule,
   type GridOptions,
   type ICellRendererParams,
 } from 'ag-grid-community'
@@ -24,6 +25,7 @@ ModuleRegistry.registerModules([
   ColumnApiModule,
   RowAutoHeightModule,
   ColumnAutoSizeModule,
+  ValidationModule,
 ])
 
 const props = defineProps<{
@@ -130,6 +132,7 @@ const gridOptions: GridOptions<Tour> = {
     type: 'fitCellContents',
   },
 }
+
 </script>
 
 <template>

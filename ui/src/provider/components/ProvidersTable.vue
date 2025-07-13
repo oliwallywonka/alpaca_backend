@@ -78,7 +78,7 @@ const handleStatus = (id: string, status: boolean) => {
         </TableCell>
         <TableCell>
           <RouterLink :to="`/providers/${provider.id}/resources`" :class="buttonVariants()">
-            Resources
+            Prices list
           </RouterLink>
           <ProviderFormDialog :providerID="provider.id" >Edit</ProviderFormDialog>
         </TableCell>

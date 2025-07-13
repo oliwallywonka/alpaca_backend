@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Button } from '@/core/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -6,47 +7,44 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/core/components/ui/dialog'
-import { Button } from '@/core/components/ui/button'
 import { Input } from '@/core/components/ui/input'
 import { Label } from '@/core/components/ui/label'
-import type { EventImpl } from '@fullcalendar/core/internal'
-import type { EventApi } from '@fullcalendar/core/index.js'
-
-const isOpen = defineModel<boolean>()
-const props = defineProps<{
-  event: EventImpl | EventApi | null
-}>()
-const emit = defineEmits<{
-  (e: 'close'): void
-}>()
-
-function handleClose() {
-  emit('close')
-}
 </script>
 
 <template>
-  <Dialog v-model:open="isOpen">
+  <Dialog>
+    <DialogTrigger as-child>
+      <Button variant="outline">
+        Edit Profile
+      </Button>
+    </DialogTrigger>
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{{ props.event?.title }}</DialogTitle>
+        <DialogTitle>Edit profile</DialogTitle>
         <DialogDescription>
-          Make changes to your profile here. Click save when you're done.pc i7core i7
+          Make changes to your profile here. Click save when you're done.
         </DialogDescription>
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="name" class="text-right"> Name </Label>
+          <Label for="name" class="text-right">
+            Name
+          </Label>
           <Input id="name" value="Pedro Duarte" class="col-span-3" />
         </div>
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="username" class="text-right"> Username </Label>
+          <Label for="username" class="text-right">
+            Username
+          </Label>
           <Input id="username" value="@peduarte" class="col-span-3" />
         </div>
       </div>
       <DialogFooter>
-        <Button @click="handleClose"> Save changes </Button>
+        <Button type="submit">
+          Save changes
+        </Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>

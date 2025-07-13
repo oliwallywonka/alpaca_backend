@@ -56,8 +56,8 @@ const removeContact = (index: number) => {
         <SelectContent>
           <SelectGroup>
             <SelectItem
-              v-for="contact of contactTypes"
-              :key="contact"
+              v-for="(contact, index) of contactTypes"
+              :key="`${contact}-${index}`"
               :value="contact"
               class="font-semibold"
             >

@@ -1,4 +1,5 @@
 import type { LanguageField } from '@/core/interfaces/fields'
+import type { TourResource } from './tourResources'
 
 export interface Tour {
   id: string
@@ -19,4 +20,7 @@ export interface Tour {
   isActive: boolean
   created: string
   updated: string
+  expand?: {
+    "tourResources_via_tour": TourResource[]
+  }
 }

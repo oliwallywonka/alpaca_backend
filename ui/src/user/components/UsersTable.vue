@@ -79,7 +79,7 @@ const handleStatus = (id: string, status: boolean) => {
         </TableCell>
         <TableCell class="flex gap-2">
           <RouterLink :to="`/users/${user.id}/resources`" :class="buttonVariants()">
-            Resources
+            Prices List
           </RouterLink>
           <UserFormDialog :userID="user.id" />
         </TableCell>

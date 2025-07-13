@@ -9,6 +9,7 @@ import {
   TableHead,
 } from '@/core/components/ui/table'
 import { Badge } from '@/core/components/ui/badge'
+import PDFVoucher from '@/trip/components/PDFVoucher.vue'
 </script>
 
 <template>
@@ -24,6 +25,7 @@ import { Badge } from '@/core/components/ui/badge'
               <TableHead>Customer</TableHead>
               <TableHead>Amount</TableHead>
               <TableHead>Method</TableHead>
+              <TableHead>Voucher</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -33,6 +35,7 @@ import { Badge } from '@/core/components/ui/badge'
               <TableCell>John Doe</TableCell>
               <TableCell><Badge variant="green">$100</Badge></TableCell>
               <TableCell><Badge>Paypal</Badge></TableCell>
+              <TableCell><PDFVoucher /></TableCell>
             </TableRow>
           </TableBody>
         </Table>

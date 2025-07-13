@@ -154,7 +154,7 @@ watch([props.prices, isOpen], ([newPrices, newIsOpen]) => {
             props.resourceProviderID ? 'Update Resource Prices List' : 'Create Resource Prices List'
           }}
         </DialogTitle>
-        <DialogDescription> * Are mandatory fields {{ props }} </DialogDescription>
+        <DialogDescription> * Are mandatory fields </DialogDescription>
       </DialogHeader>
       <form id="resource-provider-form" @submit.prevent="onSubmit" class="grid grid-cols-3 gap-4">
         <fieldset class="flex flex-col gap-2">

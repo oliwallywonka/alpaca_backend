@@ -67,7 +67,9 @@ const props = defineProps<{
 }>()
 
 /* const startFetching = computed(() => !!props.serviceProviderID && isOpen.value) */
-const { params } = useParams()
+const { params } = useParams({
+  perPage: 20,
+})
 const servicesQuery = ResourceService.useGetAll(params)
 const { mutateAsync: createProviderService } = ProviderService.useCreateResource()
 const queryClient = useQueryClient()
@@ -80,7 +82,7 @@ const formSchema = toTypedSchema(
       z.object({
         minPersons: z.number().min(1, 'Min persons is required'),
         maxPersons: z.number().min(1, 'Max persons is required'),
-        price: z.number().min(1, 'Price is required and cannot be zero'),
+        price: z.number().min(0, 'Price is required and cannot less than zero'),
         currency: z.string().min(1, 'Currency is required'),
         isPerPerson: z.boolean(),
       }),
@@ -94,7 +96,7 @@ const initialValues = {
   refPrices: props.prices || [],
 }
 
-const { handleSubmit, setFieldValue, values, resetForm } = useForm({
+const { handleSubmit, setFieldValue, resetForm } = useForm({
   validationSchema: formSchema,
   initialValues: initialValues,
 })
@@ -146,7 +148,7 @@ watch([props.prices, isOpen], ([newPrices, newIsOpen]) => {
         <DialogTitle
           >{{ props.serviceProviderID ? 'Edit Role' : 'Create Service Prices List' }}
         </DialogTitle>
-        <DialogDescription> * Are mandatory fields {{ values }} </DialogDescription>
+        <DialogDescription> * Are mandatory fields </DialogDescription>
       </DialogHeader>
       <form id="service-provider-form" @submit.prevent="onSubmit" class="grid grid-cols-3 gap-4">
         <fieldset class="flex flex-col gap-2">

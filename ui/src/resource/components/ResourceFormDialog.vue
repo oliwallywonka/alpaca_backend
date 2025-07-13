@@ -40,16 +40,16 @@ const { mutateAsync } = ResourceService.useCreate()
 const { mutateAsync: updateMutate } = ResourceService.useUpdate()
 const queryClient = useQueryClient()
 
-const { handleSubmit, values, setFieldValue, resetForm, setValues } = useForm({
+const { handleSubmit, setFieldValue, resetForm, setValues } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       name: z.record(z.string(), z.string().min(1, 'Every lang must has at least 1 character')),
       description: z.record(
         z.string(),
-        z.string().min(1, 'Every lang must has at least 1 character'),
+        z.string().optional(),
       ),
       // TODO: use an array string and do a multiselect component
-      types: z.string(),
+      types: z.string().min(1, 'Type is required'),
     }),
   ),
   initialValues: {
@@ -116,7 +116,7 @@ watch([data, isOpen], ([newData, newIsOpen]) => {
     <DialogContent class="w-full max-w-5xl">
       <DialogHeader>
         <DialogTitle>{{ props.resourceID ? 'Edit Service' : 'Create Service' }}</DialogTitle>
-        <DialogDescription> Click save when you're done. {{ values }} </DialogDescription>
+        <DialogDescription> Click save when you're done. </DialogDescription>
       </DialogHeader>
 
       <form id="resource-form" @submit.prevent="onSubmit">

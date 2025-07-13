@@ -21,6 +21,8 @@ class tourService {
           .collection(this.tourTable)
           .getList<Tour>(params?.value.page, params?.value.perPage, {
             filter: params?.value.filter,
+            orderBy: params?.value.orderBy,
+            expand: params?.value.expand,
           })
       },
     })
