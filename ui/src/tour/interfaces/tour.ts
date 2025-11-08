@@ -1,5 +1,5 @@
 import type { LanguageField } from '@/core/interfaces/fields'
-import type { TourResource } from './tourResources'
+import type { ItineraryResource } from './itineraryResource'
 
 export interface Tour {
   id: string
@@ -21,6 +21,6 @@ export interface Tour {
   created: string
   updated: string
   expand?: {
-    "tourResources_via_tour": TourResource[]
+    tourResources_via_tour: ItineraryResource[]
   }
 }

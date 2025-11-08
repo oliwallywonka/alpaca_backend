@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { ChevronsUpDown, LogOut } from 'lucide-vue-next'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/core/components/ui/avatar'
@@ -7,7 +7,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/core/components/ui/avatar
 import {
   DropdownMenu,
   DropdownMenuContent,
-  /* DropdownMenuGroup, */
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -22,11 +21,10 @@ import {
 import type { User } from '@/user/interfaces/user'
 import { UserService } from '@/user/services/userService'
 import { API } from '../services/pocketbase'
-import { useRouter } from 'vue-router'
 
 const router = useRouter()
 // TODO: fix this TypeScript error
-const user = ref<User>(UserService.authStore.record)
+const user = UserService.authStore.record as unknown as User
 const { isMobile } = useSidebar()
 const handleLogout = () => {
   API.authStore.clear()
@@ -73,28 +71,6 @@ const handleLogout = () => {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <!-- <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Sparkles />
-              Upgrade to Pro
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <BadgeCheck />
-              Account
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <CreditCard />
-              Billing
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Bell />
-              Notifications
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator /> -->
           <DropdownMenuItem @click="handleLogout">
             <LogOut />
             Log out

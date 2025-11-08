@@ -68,7 +68,7 @@
   --fc-bg-event-color: rgb(143, 223, 130);
   --fc-bg-event-opacity: 0.3;
   --fc-highlight-color: rgba(188, 232, 241, 0.3);
-  --fc-today-bg-color: var(--sidebar);
+  --fc-today-bg-color: oklch(0.97 0 0);
   --fc-now-indicator-color: red;
 }
 

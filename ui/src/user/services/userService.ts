@@ -1,4 +1,4 @@
-import type { ParamsRequest } from '@/core/interfaces/api'
+import type { QueryParams } from '@/core/interfaces/api'
 import { API } from '@/core/services/pocketbase'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import type PocketBase from 'pocketbase'
@@ -10,8 +10,8 @@ import type { BaseAuthStore } from 'pocketbase'
 class userService {
   public api: PocketBase
   public authStore: BaseAuthStore
-  userTable = 'users'
-  resourceProviderTable = 'resourceProviders'
+  user = 'users'
+  resourceProvider = 'resourceProviders'
   constructor() {
     this.api = API
     this.authStore = this.api.authStore
@@ -21,9 +21,13 @@ class userService {
     return useMutation({
       mutationKey: ['user_auth'],
       mutationFn: async ({ identity, password }: { identity: string; password: string }) => {
-        return await this.api.collection<User>(this.userTable).authWithPassword(identity, password, {
-          expand: 'role',
-        })
+        const res = await this.api
+          .collection<User>(this.user)
+          .authWithPassword(identity, password, {
+            expand: 'role',
+          })
+        console.log(res)
+        return res
       },
     })
   }
@@ -32,12 +36,12 @@ class userService {
     this.authStore.clear()
   }
 
-  useGetAll(params?: Ref<ParamsRequest>) {
+  useGetAll(params?: Ref<QueryParams>) {
     return useQuery({
       queryKey: ['users', params?.value],
       queryFn: async () => {
         return await this.api
-          .collection<User>(this.userTable)
+          .collection<User>(this.user)
           .getList(params?.value.page || 1, params?.value?.perPage || 20, {
             filter: params?.value?.filter || '',
             expand: 'role',
@@ -51,7 +55,7 @@ class userService {
       queryKey: ['user', id],
       enabled: startFetching,
       queryFn: async () => {
-        return await this.api.collection<User>(this.userTable).getOne(id.value)
+        return await this.api.collection<User>(this.user).getOne(id.value)
       },
     })
   }
@@ -60,7 +64,7 @@ class userService {
     return useMutation({
       mutationKey: ['user_create'],
       mutationFn: async (data: Partial<User>) => {
-        return await this.api.collection(this.userTable).create({ ...data, emailVisibility: true })
+        return await this.api.collection(this.user).create({ ...data, emailVisibility: true })
       },
     })
   }
@@ -69,7 +73,7 @@ class userService {
     return useMutation({
       mutationKey: ['user_update'],
       mutationFn: async ({ id, data }: { id: string; data: Partial<User> }) => {
-        return await this.api.collection(this.userTable).update(id, data)
+        return await this.api.collection(this.user).update(id, data)
       },
     })
   }
@@ -78,12 +82,10 @@ class userService {
     return useQuery({
       queryKey: ['user_resources', userID],
       queryFn: async () => {
-        return await this.api
-          .collection<ResourceProvider>(this.resourceProviderTable)
-          .getList(1, 100, {
-            filter: `user.id="${userID.value}"`,
-            expand: 'user,resource',
-          })
+        return await this.api.collection<ResourceProvider>(this.resourceProvider).getList(1, 100, {
+          filter: `user.id="${userID.value}"`,
+          expand: 'user,resource',
+        })
       },
     })
   }
@@ -93,7 +95,7 @@ class userService {
       mutationKey: ['user_resource_create'],
       mutationFn: async (data: { userID: string; data: Partial<ResourceProvider> }) => {
         return await this.api
-          .collection<ResourceProvider>(this.resourceProviderTable)
+          .collection<ResourceProvider>(this.resourceProvider)
           .create({ ...data.data, user: data.userID })
       },
     })
@@ -108,7 +110,7 @@ class userService {
         data: Partial<ResourceProvider>
       }) => {
         return await this.api
-          .collection<ResourceProvider>(this.resourceProviderTable)
+          .collection<ResourceProvider>(this.resourceProvider)
           .update(data.resourceProviderID, { ...data.data, user: data.userID })
       },
     })
@@ -118,7 +120,7 @@ class userService {
       mutationKey: ['user_resource_delete'],
       mutationFn: async (data: { userID: string; resourceProviderID: string }) => {
         return await this.api
-          .collection<ResourceProvider>(this.resourceProviderTable)
+          .collection<ResourceProvider>(this.resourceProvider)
           .delete(data.resourceProviderID)
       },
     })

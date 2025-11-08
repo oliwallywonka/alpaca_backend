@@ -11,6 +11,7 @@ import type { EventImpl } from '@fullcalendar/core/internal'
 const props = defineProps<{
   initialEvents: EventSourceInput
 }>()
+
 const emit = defineEmits<{
   (e: 'drop:event', event: EventImpl): void
   (e: 'receive:event', event: EventApi): void
@@ -26,6 +27,7 @@ const travelCalendarOptions = ref<CalendarOptions>({
   eventReceive: function (info) {
     console.log('RECIEVING EVENT', info.event.toJSON())
     emit('receive:event', info.event)
+    info.event.remove()
   },
   eventDrop: function (info) {
     console.log('DROPPING EVENT', info.event.toJSON())

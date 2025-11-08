@@ -1,8 +1,8 @@
 import { ref } from 'vue'
-import type { ParamsRequest } from '../interfaces/api'
+import type { QueryParams } from '../interfaces/api'
 
-export function useParams(paramParams: Partial<ParamsRequest> = {}) {
-  const defaultParams: ParamsRequest = {
+export function useParams(paramParams: Partial<QueryParams> = {}) {
+  const defaultParams: QueryParams = {
     page: 1,
     perPage: 10,
     filter: '',
@@ -11,7 +11,7 @@ export function useParams(paramParams: Partial<ParamsRequest> = {}) {
     expand: '',
     ...paramParams,
   }
-  const params = ref<ParamsRequest>(defaultParams)
+  const params = ref<QueryParams>(defaultParams)
 
   const resetParams = () => {
     params.value = defaultParams
@@ -25,7 +25,7 @@ export function useParams(paramParams: Partial<ParamsRequest> = {}) {
     return urlParams.toString()
   }
 
-  const setParams = (newParams: Partial<ParamsRequest>) => {
+  const setParams = (newParams: Partial<QueryParams>) => {
     params.value = { ...params.value, ...newParams }
   }
 

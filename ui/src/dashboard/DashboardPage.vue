@@ -46,10 +46,10 @@ const chartType = ref<ChartType>('area')
       <CardContent class="grid gap-1">
         <span class="text-sm text-black/60">Tours Revenue:</span>
         <div class="flex gap-2">
-          <span class="text-xl font-semibold">SUS 4.250</span>
+          <span class="text-xl font-semibold">USD 4.250</span>
           <Badge variant="green">+10% <ArrowUpRight class="text-green-500" /></Badge>
         </div>
-        <span class="text-sm text-black/60">+SUS1243 Revenue</span>
+        <span class="text-sm text-black/60">+USD 1243 Revenue</span>
       </CardContent>
     </Card>
 
@@ -67,10 +67,10 @@ const chartType = ref<ChartType>('area')
       <CardContent class="grid gap-1">
         <span class="text-sm text-black/60">Cash Flow:</span>
         <div class="flex gap-2">
-          <span class="text-xl font-semibold">SUS 4.250</span>
+          <span class="text-xl font-semibold">USD 4.250</span>
           <Badge variant="green">+10% <ArrowUpRight /></Badge>
         </div>
-        <span class="text-sm text-black/60">+SUS 450</span>
+        <span class="text-sm text-black/60">+USD 450</span>
       </CardContent>
     </Card>
     <Card>

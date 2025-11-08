@@ -7,7 +7,7 @@ import (
 
 	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
-	"github.com/oliwallywonka/alpaca_backend/settings"
+	"github.com/oliwallywonka/alpaca_backend/config"
 )
 
 type Service interface {
@@ -16,19 +16,19 @@ type Service interface {
 }
 
 type cloudinaryService struct {
-	settings *settings.Settings
-	ctx      context.Context
+	config *config.Config
+	ctx    context.Context
 }
 
-func NewService(s *settings.Settings, ctx context.Context) Service {
+func NewService(s *config.Config, ctx context.Context) Service {
 	return &cloudinaryService{
-		settings: s,
-		ctx:      ctx,
+		config: s,
+		ctx:    ctx,
 	}
 }
 
 func (s *cloudinaryService) UploadImage(file multipart.File) (*uploader.UploadResult, error) {
-	cld, err := cloudinary.NewFromURL(s.settings.CloudinaryURL)
+	cld, err := cloudinary.NewFromURL(s.config.CloudinaryURL)
 	if err != nil {
 		fmt.Println(err)
 		return nil, ConnectionError
@@ -43,7 +43,7 @@ func (s *cloudinaryService) UploadImage(file multipart.File) (*uploader.UploadRe
 }
 
 func (s *cloudinaryService) DeleteImage(imageID string) error {
-	cld, err := cloudinary.NewFromURL(s.settings.CloudinaryURL)
+	cld, err := cloudinary.NewFromURL(s.config.CloudinaryURL)
 	if err != nil {
 		fmt.Println(err)
 		return ConnectionError

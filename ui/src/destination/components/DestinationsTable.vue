@@ -17,6 +17,13 @@ import { Switch } from '@/core/components/ui/switch'
 import { Badge } from '@/core/components/ui/badge'
 import DestinationFormDialog from './DestinationFormDialog.vue'
 
+ModuleRegistry.registerModules([
+  ClientSideRowModelModule,
+  ColumnAutoSizeModule,
+  RowSelectionModule,
+  ValidationModule,
+])
+
 const props = defineProps<{
   destinations: Destination[]
   showSelect?: boolean
@@ -26,13 +33,6 @@ const emit = defineEmits<{
   (e: 'click:status', id: string, status: boolean): void
   (e: 'select:destination', destination: Destination | undefined): void
 }>()
-
-ModuleRegistry.registerModules([
-  ClientSideRowModelModule,
-  ColumnAutoSizeModule,
-  RowSelectionModule,
-  ValidationModule,
-])
 
 const ParentCell = {
   setup({ params }: { params: ICellRendererParams<Destination> }) {
@@ -89,13 +89,12 @@ const selectOptions = computed<Partial<GridOptions>>(() => {
   }
 })
 
-const gridOptions: GridOptions = {
+const gridOptions: GridOptions<Destination> = {
   columnDefs: [
     {
       field: 'name.en',
       headerName: 'Name',
       minWidth: 250,
-      flex: 1,
       pinned: 'left',
     },
     {
@@ -108,24 +107,22 @@ const gridOptions: GridOptions = {
       field: 'expand',
       headerName: 'Parent',
       minWidth: 100,
-      flex: 1,
       cellRenderer: ParentCell,
     },
     {
       field: 'location',
       minWidth: 100,
-      flex: 1,
       cellRenderer: LocationCell,
     },
     {
       field: 'isActive',
       headerName: 'Status',
+      minWidth: 120,
       cellRenderer: StatusCell,
     },
     {
       headerName: 'Actions',
       pinned: 'right',
-      flex: 1,
       cellRenderer: ActionsCell,
     },
   ],

@@ -3,15 +3,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/components/ui/t
 
 import TourForm from '@/tour/components/TourForm.vue'
 import ImagesForm from '../components/ImagesForm.vue'
-import VariantsList from '../components/TourVariants/VariantsList.vue'
+import ItineraryList from '@/itinerary/components/List/ItineraryList.vue'
 </script>
 
 <template>
-  <Tabs default-value="variants">
+  <Tabs default-value="itineraries">
     <TabsList class="grid w-full grid-cols-3">
       <TabsTrigger value="tourForm"> Basic Info </TabsTrigger>
       <TabsTrigger value="images"> Images </TabsTrigger>
-      <TabsTrigger value="variants"> Variants </TabsTrigger>
+      <TabsTrigger value="itineraries"> Itineraries </TabsTrigger>
     </TabsList>
     <TabsContent value="tourForm">
       <TourForm />
@@ -19,8 +19,8 @@ import VariantsList from '../components/TourVariants/VariantsList.vue'
     <TabsContent value="images">
       <ImagesForm />
     </TabsContent>
-    <TabsContent value="variants">
-      <VariantsList />
+    <TabsContent value="itineraries">
+      <ItineraryList />
     </TabsContent>
   </Tabs>
 </template>

@@ -44,10 +44,7 @@ const { handleSubmit, setFieldValue, resetForm, setValues } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       name: z.record(z.string(), z.string().min(1, 'Every lang must has at least 1 character')),
-      description: z.record(
-        z.string(),
-        z.string().optional(),
-      ),
+      description: z.record(z.string(), z.string().optional()),
       // TODO: use an array string and do a multiselect component
       types: z.string().min(1, 'Type is required'),
     }),
@@ -72,19 +69,27 @@ const onSubmit = handleSubmit(async (values) => {
         data: {
           ...rest,
           types: [_],
+          // TODO: this code is made from copilot, verify if it's correct
+          description: Object.fromEntries(
+            Object.entries(rest.description).map(([lang, val]) => [lang, val ?? '']),
+          ),
         },
       })
-      toast.success('Form submitted successfully')
       queryClient.invalidateQueries({ queryKey: ['resources'] })
+      toast.success('Form submitted successfully')
       return
     }
 
     await mutateAsync({
       ...rest,
       types: [_],
+      // TODO: this code is made from copilot, verify if it's correct
+      description: Object.fromEntries(
+        Object.entries(rest.description).map(([lang, val]) => [lang, val ?? '']),
+      ),
     })
-    toast.success('Form submitted successfully')
     queryClient.invalidateQueries({ queryKey: ['resources'] })
+    toast.success('Form submitted successfully')
   } catch (error) {
     toast.error('Error submitting form')
     console.error('Error submitting form:', error)

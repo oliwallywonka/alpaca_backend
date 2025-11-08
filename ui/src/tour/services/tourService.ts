@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import type PocketBase from 'pocketbase'
 
-import type { ParamsRequest } from '@/core/interfaces/api'
+import type { QueryParams } from '@/core/interfaces/api'
 import { API } from '@/core/services/pocketbase'
 import type { Tour } from '../interfaces/tour'
 
@@ -13,7 +13,7 @@ class tourService {
     this.api = API
   }
 
-  useGetAll(params?: Ref<ParamsRequest>) {
+  useGetAll(params?: Ref<QueryParams>) {
     return useQuery({
       queryKey: ['tours', params?.value],
       queryFn: async () => {

@@ -3,3 +3,5 @@ alpaca_backend.exe
 *.db
 *.exe
 pb_data
+
+.vscode

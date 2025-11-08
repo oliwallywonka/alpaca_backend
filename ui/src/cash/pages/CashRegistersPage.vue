@@ -107,8 +107,8 @@ const onSubmit = handleSubmit(() => {
       <TableBody>
         <TableRow v-for="index in 4" :key="index">
           <TableCell>1</TableCell>
-          <TableCell>SUS 4.250</TableCell>
-          <TableCell>SUS 0</TableCell>
+          <TableCell>USD 4.250</TableCell>
+          <TableCell>USD 0</TableCell>
           <TableCell>
             <div class="flex gap-2 items-center">
               <img

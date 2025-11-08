@@ -10,7 +10,7 @@ export interface Paginated<T> {
   page: number
 }
 
-export interface ParamsRequest {
+export interface QueryParams {
   page: number
   perPage: number
   filter: string

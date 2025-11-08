@@ -7,6 +7,15 @@ import SearchInput from '@/core/components/fields/SearchInput.vue'
 import ItemsPaginator from '@/core/components/paginator/ItemsPaginator.vue'
 import { Button } from '@/core/components/ui/button'
 import CustomerFormDIalog from '../components/CustomerFormDIalog.vue'
+import type { Customer } from '../interfaces/customer'
+
+const props = defineProps<{
+  showSelect?: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'select:customer', customer: Customer | undefined): void
+}>()
 
 const { params, setParams } = useParams()
 const { data, isLoading, refetch } = CustomerService.useGetAll(params)
@@ -33,6 +42,10 @@ const handleSearch = async (value: string) => {
   <p v-if="!data || data.items.length === 0" class="text-muted-foreground text-sm">
     No customers found
   </p>
-  <CustomersTable :customers="data?.items || []" />
+  <CustomersTable
+    :customers="data?.items || []"
+    :showSelect="props.showSelect"
+    @select:customer="emit('select:customer', $event)"
+  />
   <ItemsPaginator :itemsPerPage="params.perPage" :total="data?.totalItems || 0" />
 </template>

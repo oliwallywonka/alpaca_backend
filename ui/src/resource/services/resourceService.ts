@@ -3,7 +3,7 @@ import type PocketBase from 'pocketbase'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 
 import { API } from '@/core/services/pocketbase'
-import type { ParamsRequest } from '@/core/interfaces/api'
+import type { QueryParams } from '@/core/interfaces/api'
 import type { Resource } from '../interfaces/resource'
 
 class resourceService {
@@ -13,7 +13,7 @@ class resourceService {
     this.api = API
   }
 
-  useGetAll(params?: Ref<ParamsRequest>) {
+  useGetAll(params?: Ref<QueryParams>) {
     return useQuery({
       queryKey: ['resources', params?.value],
       queryFn: async () => {

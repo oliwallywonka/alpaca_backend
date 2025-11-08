@@ -13,9 +13,14 @@ import {
 import { Button } from '@/core/components/ui/button'
 
 const isOpen = defineModel<boolean>({ default: false })
-const props = defineProps<{
-  showTrigger?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    showTrigger?: boolean
+  }>(),
+  {
+    showTrigger: true,
+  },
+)
 const emit = defineEmits<{
   (e: 'confirm:delete'): void
 }>()

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TourVariant } from '@/tour/interfaces/tourVariant'
+import type { ItinerarySummary } from '@/itinerary/interfaces/itinerary'
 import { Draggable } from '@fullcalendar/interaction/index.js'
 import {
   ClientSideRowModelModule,
@@ -13,17 +13,13 @@ import { AgGridVue } from 'ag-grid-vue3'
 import { h, onMounted } from 'vue'
 
 const props = defineProps<{
-  data: TourVariant[]
+  data: ItinerarySummary[]
 }>()
 
-ModuleRegistry.registerModules([
-  ClientSideRowModelModule,
-  RowGroupingModule,
-  ValidationModule,
-])
+ModuleRegistry.registerModules([ClientSideRowModelModule, RowGroupingModule, ValidationModule])
 
 const draggableCell = {
-  setup({params}: { params: ICellRendererParams<TourVariant>}) {
+  setup({ params }: { params: ICellRendererParams<ItinerarySummary> }) {
     return () =>
       h(
         'div',
@@ -32,10 +28,10 @@ const draggableCell = {
         },
         params.value,
       )
-  }
+  },
 }
 
-const gridOptions: GridOptions<TourVariant> = {
+const gridOptions: GridOptions<ItinerarySummary> = {
   groupDisplayType: 'groupRows',
   domLayout: 'autoHeight',
   defaultColDef: {

@@ -1,3 +1,21 @@
+export function dateToSuggar(date?: string | Date, showTime?: boolean) {
+  if (!date) return ''
+  if (showTime) {
+    return new Date(date).toLocaleString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    })
+  }
+  return new Date(date).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
+
 export function getStringDate(date: number) {
   return new Intl.DateTimeFormat('en-US', {
     dateStyle: 'long',
